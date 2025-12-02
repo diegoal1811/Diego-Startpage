@@ -1,0 +1,82 @@
+---
+import { config } from "../config";
+---
+
+<div class="flex items-center space-x-2 text-lg mb-8">
+    <span style={{ color: config.theme.colors.secondary }}
+        >{config.prompt.user}</span
+    >
+    <span style={{ color: config.theme.colors.secondary }}>@</span>
+    <span style={{ color: config.theme.colors.primary }}
+        >{config.prompt.host}</span
+    >
+    <span style={{ color: config.theme.colors.foreground }}>:~</span>
+    <span style={{ color: config.theme.colors.secondary }}>$</span>
+    <input
+        type="text"
+        id="prompt-input"
+        class="bg-transparent border-none outline-none w-full placeholder-[#6c7086]"
+        style={{ color: config.theme.colors.foreground }}
+        placeholder="buscar..."
+        autofocus
+        autocomplete="off"
+    />
+</div>
+
+<script>
+    import { config } from "../config";
+
+    const input = document.getElementById("prompt-input") as HTMLInputElement;
+
+    input?.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            const value = input.value.trim();
+            if (!value) return;
+
+            // Check for commands
+            if (value.startsWith("g ")) {
+                window.location.href =
+                    config.prompt.searchEngines.g + value.slice(2);
+            } else if (value.startsWith("yt ")) {
+                window.location.href =
+                    config.prompt.searchEngines.yt + value.slice(3);
+            } else if (value.startsWith("gh ")) {
+                window.location.href =
+                    config.prompt.searchEngines.gh + value.slice(3);
+            } else if (value.startsWith("http")) {
+                window.location.href = value;
+            } else {
+                // Check for visible links
+                const visibleLinks = document.querySelectorAll(
+                    ".link-item:not([style*='display: none'])",
+                );
+
+                // Filter manually because the previous query selector might not be enough if styles are applied to parents
+                // We need to check which links are actually visible based on the filtering logic in LinkContainer
+                // But LinkContainer logic hides the parent <li>, so we should check for visible <li>s
+
+                const visibleItems = Array.from(
+                    document.querySelectorAll("li"),
+                ).filter((li) => {
+                    return (
+                        getComputedStyle(li).display !== "none" &&
+                        li.closest(".category") &&
+                        getComputedStyle(li.closest(".category")!).display !==
+                            "none"
+                    );
+                });
+
+                if (visibleItems.length === 1) {
+                    const link = visibleItems[0].querySelector("a");
+                    if (link) {
+                        window.location.href = link.href;
+                        return;
+                    }
+                }
+
+                // Default search
+                window.location.href = config.prompt.defaultSearch + value;
+            }
+        }
+    });
+</script>

@@ -1,5 +1,10 @@
 ---
-
+import Terminal from "../components/Terminal.astro";
+import Clock from "../components/Clock.astro";
+import Prompt from "../components/Prompt.astro";
+import LinkContainer from "../components/LinkContainer.astro";
+import { config } from "../config";
+import "../styles/global.css";
 ---
 
 <html lang="en">
@@ -8,9 +13,15 @@
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>Inicio</title>
 	</head>
-	<body>
-		<h1>Astro</h1>
+	<body
+		style={`background-color: ${config.theme.colors.background}; ${config.theme.colors.image ? `background-image: url('/${config.theme.colors.image}'); background-size: cover; background-position: center; background-attachment: fixed;` : ""}`}
+	>
+		<Terminal>
+			<Clock />
+			<Prompt />
+			<LinkContainer />
+		</Terminal>
 	</body>
 </html>

@@ -1,0 +1,44 @@
+---
+import { config } from "../config";
+---
+
+<div
+    id="clock"
+    class="text-6xl font-bold mb-4 text-center"
+    style={{ color: config.theme.colors.primary }}
+>
+    00:00
+</div>
+<div
+    id="date"
+    class="text-xl mb-12 text-center"
+    style={{ color: config.theme.colors.secondary }}
+>
+    ...
+</div>
+
+<script>
+    function updateClock() {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString("es-MX", {
+            hour12: false,
+            hour: "2-digit",
+            minute: "2-digit",
+        });
+        const dateString = now.toLocaleDateString("es-MX", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        });
+
+        const clockEl = document.getElementById("clock");
+        const dateEl = document.getElementById("date");
+
+        if (clockEl) clockEl.textContent = timeString;
+        if (dateEl) dateEl.textContent = dateString;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+</script>

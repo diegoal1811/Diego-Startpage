@@ -1,0 +1,74 @@
+---
+import { config } from "../config";
+---
+
+<div
+    id="links-container"
+    class="grid grid-cols-1 md:grid-cols-3 gap-8"
+    style={{
+        "--primary-color": config.theme.colors.primary,
+        "--secondary-color": config.theme.colors.secondary,
+        "--foreground-color": config.theme.colors.foreground,
+    }}
+>
+    {
+        config.links.map((category) => (
+            <div class="category">
+                <h3 class="text-[var(--secondary-color)] text-xl font-bold mb-4 border-b border-[#f9e2af]/20 pb-2">
+                    {category.name}
+                </h3>
+                <ul class="space-y-2">
+                    {category.items.map((item) => (
+                        <li>
+                            <a
+                                href={item.url}
+                                class="link-item flex items-center space-x-2 hover:text-[var(--primary-color)] transition-colors group"
+                            >
+                                <span>{item.name}</span>
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        ))
+    }
+</div>
+
+<script>
+    const input = document.getElementById("prompt-input") as HTMLInputElement;
+    const categories = document.querySelectorAll(".category");
+
+    input?.addEventListener("input", (e) => {
+        const value = (e.target as HTMLInputElement).value.toLowerCase();
+
+        categories.forEach((category) => {
+            const title =
+                category.querySelector("h3")?.textContent?.toLowerCase() || "";
+            const links = category.querySelectorAll(".link-item");
+            let hasVisibleLinks = false;
+
+            // Check if category matches search
+            const isCategoryMatch = title.includes(value);
+
+            links.forEach((link) => {
+                const text = link.textContent?.toLowerCase() || "";
+                const parent = link.closest("li");
+
+                // If category matches, show all links. Otherwise check link text.
+                if (isCategoryMatch || text.includes(value)) {
+                    parent!.style.display = "block";
+                    hasVisibleLinks = true;
+                } else {
+                    parent!.style.display = "none";
+                }
+            });
+
+            // Show/hide category based on visible links
+            if (hasVisibleLinks) {
+                (category as HTMLElement).style.display = "block";
+            } else {
+                (category as HTMLElement).style.display = "none";
+            }
+        });
+    });
+</script>
