@@ -9,6 +9,10 @@ export const links = [
             {
                 "name": "Cloudflare Dashboard",
                 "url": "https://dash.cloudflare.com"
+            },
+            {
+                "name": "Squoosh",
+                "url": "https://squoosh.app/"
             }
         ]
     },
