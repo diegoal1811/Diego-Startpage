@@ -10,19 +10,23 @@ import "../styles/global.css";
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link
+			rel="icon"
+			type="image/svg+xml"
+			href={import.meta.env.BASE_URL + "favicon.svg"}
+		/>
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Inicio</title>
 	</head>
 	<body
-		style={`background-color: ${config.theme.colors.background}; ${config.theme.colors.image ? `background-image: url('/${config.theme.colors.image}'); background-size: cover; background-position: center; background-attachment: fixed;` : ""}`}
+		style={`background-color: ${config.theme.colors.background}; ${config.theme.colors.image ? `background-image: url('${import.meta.env.BASE_URL}/${config.theme.colors.image}'); background-size: cover; background-position: center; background-attachment: fixed;` : ""}`}
+		class="text-white flex items-center justify-center min-h-screen font-mono"
 	>
 		<Terminal>
 			<Clock />
 			<Prompt />
 			<LinkContainer />
 		</Terminal>
-		<!-- Cambio -->
 	</body>
 </html>
