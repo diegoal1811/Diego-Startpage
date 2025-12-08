@@ -68,6 +68,10 @@ export const links = [
             {
                 "name": "ChatGPT",
                 "url": "https://chatgpt.com"
+            },
+            {
+                "name": "Gemini",
+                "url": "https://gemini.google.com/"
             }
         ]
     },
@@ -89,6 +93,10 @@ export const links = [
             {
                 "name": "Fast",
                 "url": "https://fast.com/"
+            },
+            {
+                "name": "Speed Test",
+                "url": "https://speed.cloudflare.com/"
             }
         ]
     },
