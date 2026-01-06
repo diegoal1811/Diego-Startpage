@@ -1,13 +1,30 @@
 @import "tailwindcss";
 
+:root {
+  /* Default values will be injected by index.astro based on config.ts */
+  --theme-bg: #1e1e2e;
+  --theme-fg: #B8CCD9;
+  --theme-primary: #85badbff;
+  --theme-secondary: #B8CCD9;
+  --bg-image: none;
+  --theme-opacity: 0.9;
+  --theme-blur: 16px;
+
+  /* Component Colors (Defaults) */
+  --theme-clock: var(--theme-primary);
+  --theme-date: var(--theme-secondary);
+  --theme-user: var(--theme-secondary);
+  --theme-host: var(--theme-primary);
+}
+
 /* Custom Scrollbar */
 .custom-scrollbar {
-    scrollbar-width: none;
-    /* Firefox */
-    -ms-overflow-style: none;
-    /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
 }
 
 .custom-scrollbar::-webkit-scrollbar {
-    display: none;
+  display: none;
 }

@@ -3,6 +3,7 @@ import Terminal from "../components/Terminal.astro";
 import Clock from "../components/Clock.astro";
 import Prompt from "../components/Prompt.astro";
 import LinkContainer from "../components/LinkContainer.astro";
+import SettingsModal from "../components/SettingsModal.astro";
 import { config } from "../config";
 import "../styles/global.css";
 ---
@@ -20,9 +21,123 @@ import "../styles/global.css";
 		<title>Inicio</title>
 	</head>
 	<body
-		style={`background-color: ${config.theme.colors.background}; ${config.theme.colors.image ? `background-image: url('${import.meta.env.BASE_URL}/${config.theme.colors.image}'); background-size: cover; background-position: center; background-attachment: fixed;` : ""}`}
-		class="text-white flex items-center justify-center min-h-screen font-mono"
+		class="text-white flex items-center justify-center min-h-screen font-mono bg-cover bg-center bg-fixed transition-colors duration-300"
+		style={`
+            --theme-bg: ${config.theme.colors.background};
+            --theme-fg: ${config.theme.colors.foreground};
+            --theme-primary: ${config.theme.colors.primary};
+            --theme-secondary: ${config.theme.colors.secondary};
+            --bg-image: ${config.theme.colors.image ? `url('${import.meta.env.BASE_URL}/${config.theme.colors.image}')` : "none"};
+            background-color: var(--theme-bg);
+            background-image: var(--bg-image);
+        `}
 	>
+		<script is:inline>
+			// Anti-FOUC & Load Settings
+			const savedSettings = localStorage.getItem("startpage_settings");
+			if (savedSettings) {
+				const settings = JSON.parse(savedSettings);
+				const root = document.body; // or document.documentElement if vars were there
+
+				if (settings.colors) {
+					if (settings.colors.background)
+						root.style.setProperty(
+							"--theme-bg",
+							settings.colors.background,
+						);
+					if (settings.colors.foreground)
+						root.style.setProperty(
+							"--theme-fg",
+							settings.colors.foreground,
+						);
+					if (settings.colors.primary)
+						root.style.setProperty(
+							"--theme-primary",
+							settings.colors.primary,
+						);
+					if (settings.colors.secondary)
+						root.style.setProperty(
+							"--theme-secondary",
+							settings.colors.secondary,
+						);
+					if (settings.colors.clock)
+						root.style.setProperty(
+							"--theme-clock",
+							settings.colors.clock,
+						);
+					if (settings.colors.date)
+						root.style.setProperty(
+							"--theme-date",
+							settings.colors.date,
+						);
+					if (settings.colors.host)
+						root.style.setProperty(
+							"--theme-host",
+							settings.colors.host,
+						);
+					if (settings.colors.user)
+						root.style.setProperty(
+							"--theme-user",
+							settings.colors.user,
+						);
+				}
+
+				if (settings.transparency) {
+					if (settings.transparency.opacity !== undefined)
+						root.style.setProperty(
+							"--terminal-opacity",
+							settings.transparency.opacity,
+						);
+					if (settings.transparency.blur !== undefined)
+						root.style.setProperty(
+							"--terminal-blur",
+							settings.transparency.blur,
+						);
+				}
+
+				if (settings.backgroundImage) {
+					const bgVal =
+						settings.backgroundImage.startsWith("http") ||
+						settings.backgroundImage.startsWith("data:")
+							? `url('${settings.backgroundImage}')`
+							: settings.backgroundImage;
+
+					root.style.setProperty("--bg-image", bgVal);
+
+					// Force direct application for some browsers
+					// root.style.backgroundImage = bgVal;
+				}
+
+				// Favicon Logic
+				if (settings.colors && settings.colors.favicon) {
+					const faviconColor = settings.colors.favicon;
+					fetch("./favicon.svg") // Relative to current page or root
+						.then((res) => res.text())
+						.then((svg) => {
+							// Replace the default fill color.
+							// Note: The SVG in public has fill="#85badbff".
+							// We replace it with the new color.
+							// Use regex to be safe or simple replace if exact match.
+							// The file view showed: fill="#85badbff"
+							const newSvg = svg.replace(
+								/#85badbff/g,
+								faviconColor,
+							);
+							const blob = new Blob([newSvg], {
+								type: "image/svg+xml",
+							});
+							const url = URL.createObjectURL(blob);
+							const link =
+								document.querySelector("link[rel='icon']");
+							if (link) link.href = url;
+						})
+						.catch((e) =>
+							console.error("Failed to load favicon", e),
+						);
+				}
+			}
+		</script>
+		<SettingsModal />
 		<Terminal>
 			<Clock />
 			<Prompt />

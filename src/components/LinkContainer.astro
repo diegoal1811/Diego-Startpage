@@ -6,9 +6,9 @@ import { config } from "../config";
     id="links-container"
     class="grid grid-cols-1 md:grid-cols-3 gap-8"
     style={{
-        "--primary-color": config.theme.colors.primary,
-        "--secondary-color": config.theme.colors.secondary,
-        "--foreground-color": config.theme.colors.foreground,
+        "--primary-color": "var(--theme-primary)",
+        "--secondary-color": "var(--theme-secondary)",
+        "--foreground-color": "var(--theme-fg)",
     }}
 >
     {
@@ -35,7 +35,58 @@ import { config } from "../config";
 </div>
 
 <script>
+    import { config } from "../config"; // Import config to get default colors if needed, though we use vars now.
+
     const input = document.getElementById("prompt-input") as HTMLInputElement;
+    const container = document.getElementById("links-container");
+
+    // 1. Check for Custom Links
+    const storedLinks = localStorage.getItem("custom_links");
+    if (storedLinks && container) {
+        try {
+            const links = JSON.parse(storedLinks);
+            if (Array.isArray(links) && links.length > 0) {
+                // Clear existing
+                container.innerHTML = "";
+
+                // Rebuild from JSON
+                links.forEach((category) => {
+                    if (!category.items || category.items.length === 0) return;
+
+                    const catDiv = document.createElement("div");
+                    catDiv.className = "category";
+
+                    const h3 = document.createElement("h3");
+                    h3.className =
+                        "text-[var(--theme-secondary)] text-xl font-bold mb-4 border-b border-[#f9e2af]/20 pb-2";
+                    h3.textContent = category.name;
+                    catDiv.appendChild(h3);
+
+                    const ul = document.createElement("ul");
+                    ul.className = "space-y-2";
+
+                    category.items.forEach((item: any) => {
+                        const li = document.createElement("li");
+                        const a = document.createElement("a");
+                        a.href = item.url;
+                        a.className =
+                            "link-item flex items-center space-x-2 hover:text-[var(--theme-primary)] transition-colors group";
+                        a.innerHTML = `<span>${item.name}</span>`;
+
+                        li.appendChild(a);
+                        ul.appendChild(li);
+                    });
+
+                    catDiv.appendChild(ul);
+                    container.appendChild(catDiv);
+                });
+            }
+        } catch (e) {
+            console.error("Error loading custom links", e);
+        }
+    }
+
+    // 2. Search Logic (Existing)
     const categories = document.querySelectorAll(".category");
 
     input?.addEventListener("input", (e) => {

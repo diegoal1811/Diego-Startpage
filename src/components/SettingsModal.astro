@@ -1,0 +1,1003 @@
+---
+import { config } from "../config";
+---
+
+<button
+    id="settings-btn"
+    class="fixed top-4 right-4 p-2 rounded-full opacity-50 hover:opacity-100 transition-opacity z-50 cursor-pointer text-white"
+    title="Configuración"
+>
+    <!-- Gear Icon -->
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="w-6 h-6"
+    >
+        <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z"
+        ></path>
+        <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+    </svg>
+</button>
+
+<dialog
+    id="settings-modal"
+    class="bg-[#1e1e2e] text-[#B8CCD9] p-0 rounded-xl shadow-2xl backdrop:bg-black/50 w-[90vw] max-w-4xl max-h-[90vh] border border-[#B8CCD9]/20"
+>
+    <div class="flex flex-col h-full">
+        <!-- Header -->
+        <div
+            class="flex justify-between items-center p-4 border-b border-[#B8CCD9]/10"
+        >
+            <h2 class="text-xl font-bold">Configuración</h2>
+            <button id="close-modal" class="hover:text-white">✕</button>
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex border-b border-[#B8CCD9]/10">
+            <button
+                class="tab-btn active px-6 py-3 font-medium border-b-2 border-transparent hover:bg-white/5 transition-colors"
+                data-tab="appearance">Apariencia</button
+            >
+            <button
+                class="tab-btn px-6 py-3 font-medium border-b-2 border-transparent hover:bg-white/5 transition-colors"
+                data-tab="links">Enlaces</button
+            >
+        </div>
+
+        <!-- Content -->
+        <div class="flex-1 overflow-y-auto p-6 custom-scrollbar">
+            <!-- Appearance Tab -->
+            <div id="tab-appearance" class="tab-content space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label class="block text-sm opacity-70"
+                            >Color de Fondo</label
+                        >
+                        <div class="flex gap-2">
+                            <input
+                                type="color"
+                                id="input-bg-color"
+                                class="h-10 w-20 rounded cursor-pointer bg-transparent"
+                            />
+                            <input
+                                type="text"
+                                id="text-bg-color"
+                                class="flex-1 bg-black/20 border border-white/10 rounded px-3"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm opacity-70"
+                            >Color Primario (Resaltado)</label
+                        >
+                        <div class="flex gap-2">
+                            <input
+                                type="color"
+                                id="input-primary-color"
+                                class="h-10 w-20 rounded cursor-pointer bg-transparent"
+                            />
+                            <input
+                                type="text"
+                                id="text-primary-color"
+                                class="flex-1 bg-black/20 border border-white/10 rounded px-3"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm opacity-70"
+                            >Color Secundario (Texto Suave)</label
+                        >
+                        <div class="flex gap-2">
+                            <input
+                                type="color"
+                                id="input-secondary-color"
+                                class="h-10 w-20 rounded cursor-pointer bg-transparent"
+                            />
+                            <input
+                                type="text"
+                                id="text-secondary-color"
+                                class="flex-1 bg-black/20 border border-white/10 rounded px-3"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm opacity-70"
+                            >Color Texto Principal</label
+                        >
+                        <div class="flex gap-2">
+                            <input
+                                type="color"
+                                id="input-fg-color"
+                                class="h-10 w-20 rounded cursor-pointer bg-transparent"
+                            />
+                            <input
+                                type="text"
+                                id="text-fg-color"
+                                class="flex-1 bg-black/20 border border-white/10 rounded px-3"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-4 pt-4 border-t border-white/10">
+                    <h3 class="font-bold text-sm">Colores de Componentes</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="block text-sm opacity-70">Reloj</label
+                            >
+                            <div class="flex gap-2">
+                                <input
+                                    type="color"
+                                    id="input-clock-color"
+                                    class="h-10 w-20 rounded cursor-pointer bg-transparent"
+                                />
+                                <input
+                                    type="text"
+                                    id="text-clock-color"
+                                    class="flex-1 bg-black/20 border border-white/10 rounded px-3"
+                                />
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm opacity-70">Fecha</label
+                            >
+                            <div class="flex gap-2">
+                                <input
+                                    type="color"
+                                    id="input-date-color"
+                                    class="h-10 w-20 rounded cursor-pointer bg-transparent"
+                                />
+                                <input
+                                    type="text"
+                                    id="text-date-color"
+                                    class="flex-1 bg-black/20 border border-white/10 rounded px-3"
+                                />
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm opacity-70"
+                                >Host (home)</label
+                            >
+                            <div class="flex gap-2">
+                                <input
+                                    type="color"
+                                    id="input-host-color"
+                                    class="h-10 w-20 rounded cursor-pointer bg-transparent"
+                                />
+                                <input
+                                    type="text"
+                                    id="text-host-color"
+                                    class="flex-1 bg-black/20 border border-white/10 rounded px-3"
+                                />
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm opacity-70"
+                                >Usuario (user)</label
+                            >
+                            <div class="flex gap-2">
+                                <input
+                                    type="color"
+                                    id="input-user-color"
+                                    class="h-10 w-20 rounded cursor-pointer bg-transparent"
+                                />
+                                <input
+                                    type="text"
+                                    id="text-user-color"
+                                    class="flex-1 bg-black/20 border border-white/10 rounded px-3"
+                                />
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm opacity-70"
+                                >Favicon</label
+                            >
+                            <div class="flex gap-2">
+                                <input
+                                    type="color"
+                                    id="input-favicon-color"
+                                    class="h-10 w-20 rounded cursor-pointer bg-transparent"
+                                />
+                                <input
+                                    type="text"
+                                    id="text-favicon-color"
+                                    class="flex-1 bg-black/20 border border-white/10 rounded px-3"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-4 pt-4 border-t border-white/10">
+                    <h3 class="font-bold text-sm">Personalización de Texto</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="block text-sm opacity-70"
+                                >Nombre de Usuario</label
+                            >
+                            <input
+                                type="text"
+                                id="input-user-text"
+                                placeholder="user"
+                                class="w-full bg-black/20 border border-white/10 rounded px-3 py-2"
+                            />
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm opacity-70"
+                                >Nombre de Host</label
+                            >
+                            <input
+                                type="text"
+                                id="input-host-text"
+                                placeholder="home"
+                                class="w-full bg-black/20 border border-white/10 rounded px-3 py-2"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-4 pt-4 border-t border-white/10">
+                    <h3 class="font-bold text-sm">
+                        Transparencia (Frosted Glass)
+                    </h3>
+                    <div class="flex items-center gap-2">
+                        <input
+                            type="checkbox"
+                            id="check-transparency"
+                            class="w-4 h-4 rounded bg-black/20 border-white/10"
+                        />
+                        <label
+                            for="check-transparency"
+                            class="text-sm cursor-pointer select-none"
+                            >Habilitar Transparencia</label
+                        >
+                    </div>
+
+                    <div
+                        id="transparency-controls"
+                        class="space-y-2 opacity-50 pointer-events-none transition-opacity"
+                    >
+                        <div class="flex justify-between text-xs opacity-70">
+                            <label>Opacidad</label>
+                            <span id="text-opacity-val">90%</span>
+                        </div>
+                        <input
+                            type="range"
+                            id="range-opacity"
+                            min="0"
+                            max="1"
+                            step="0.05"
+                            class="w-full"
+                        />
+                        <p class="text-xs opacity-50">
+                            Menor valor = Más transparente
+                        </p>
+                    </div>
+                </div>
+
+                <div class="space-y-2 pt-4 border-t border-white/10">
+                    <label class="block text-sm opacity-70"
+                        >Imagen de Fondo</label
+                    >
+
+                    <!-- Drop Zone -->
+                    <div
+                        id="bg-drop-zone"
+                        class="border-2 border-dashed border-white/10 rounded-lg h-32 flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors cursor-pointer relative overflow-hidden"
+                    >
+                        <input
+                            type="file"
+                            id="file-bg-image"
+                            accept="image/*"
+                            class="hidden"
+                        />
+
+                        <div
+                            id="drop-zone-content"
+                            class="space-y-1 pointer-events-none"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                class="w-8 h-8 mx-auto opacity-50"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+                                ></path>
+                            </svg>
+                            <p class="text-xs font-bold">Arrastra o haz clic</p>
+                            <p class="text-[10px] opacity-50">
+                                Máx 1MB (LocalStorage)
+                            </p>
+                        </div>
+
+                        <!-- Preview Overlay -->
+                        <div
+                            id="bg-preview-container"
+                            class="hidden absolute inset-0 w-full h-full bg-[#1e1e2e]"
+                        >
+                            <img
+                                id="bg-preview"
+                                class="w-full h-full object-cover opacity-60"
+                            />
+                            <div
+                                class="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity bg-black/40"
+                            >
+                                <p class="text-xs font-bold text-white">
+                                    Cambiar Imagen
+                                </p>
+                            </div>
+                            <button
+                                id="btn-remove-bg"
+                                class="absolute top-2 right-2 p-1 rounded-full bg-red-500/80 hover:bg-red-500 text-white z-20"
+                                title="Eliminar Imagen"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="2"
+                                    stroke="currentColor"
+                                    class="w-3 h-3"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Manual URL Input (Synced) -->
+                    <input
+                        type="text"
+                        id="input-bg-image"
+                        placeholder="O pega una URL aquí..."
+                        class="w-full bg-black/20 border border-white/10 rounded px-3 py-2 text-xs opacity-70 focus:opacity-100"
+                    />
+                </div>
+            </div>
+
+            <!-- Links Tab -->
+            <div id="tab-links" class="tab-content hidden space-y-4">
+                <div
+                    class="flex justify-between items-center bg-[#85badbff]/10 p-4 rounded-lg border border-[#85badbff]/20"
+                >
+                    <div class="text-sm">
+                        <p class="font-bold text-[#85badbff]">
+                            Importar desde Markdown
+                        </p>
+                        <p class="opacity-70 text-xs">
+                            Pega tu tabla markdown aquí para actualizar tus
+                            enlaces.
+                        </p>
+                    </div>
+                    <button
+                        id="btn-import-md"
+                        class="px-4 py-2 bg-[#85badbff] text-[#1e1e2e] font-bold rounded hover:brightness-110 text-sm"
+                    >
+                        Importar Tabla
+                    </button>
+                </div>
+
+                <!-- Markdown Import Area (Hidden by default) -->
+                <div
+                    id="import-area"
+                    class="hidden space-y-2 p-4 bg-black/20 rounded border border-white/10"
+                >
+                    <textarea
+                        id="markdown-input"
+                        class="w-full h-32 bg-[#1e1e2e] border border-white/10 rounded p-2 text-xs font-mono"
+                        placeholder="| Categoría | Nombre | URL |..."
+                    ></textarea>
+                    <div class="flex justify-end gap-2">
+                        <button
+                            id="btn-cancel-import"
+                            class="px-3 py-1 text-xs hover:bg-white/10 rounded"
+                            >Cancelar</button
+                        >
+                        <button
+                            id="btn-process-import"
+                            class="px-3 py-1 bg-[#85badbff] text-[#1e1e2e] text-xs font-bold rounded hover:brightness-110"
+                            >Procesar</button
+                        >
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm border-collapse">
+                        <thead>
+                            <tr class="border-b border-white/10">
+                                <th class="p-2 w-1/4">Categoría</th>
+                                <th class="p-2 w-1/4">Nombre</th>
+                                <th class="p-2 w-1/2">URL</th>
+                                <th class="p-2 w-10"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="links-table-body">
+                            <!-- JS Generated Rows -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <button
+                    id="btn-add-row"
+                    class="w-full py-2 border border-dashed border-white/20 rounded hover:bg-white/5 text-sm opacity-70"
+                    >+ Agregar Fila</button
+                >
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div
+            class="p-4 border-t border-[#B8CCD9]/10 flex justify-end gap-3 bg-[#1e1e2e]"
+        >
+            <button
+                id="btn-reset"
+                class="px-4 py-2 text-sm hover:underline text-red-400"
+                >Restaurar Todo</button
+            >
+            <button
+                id="btn-save"
+                class="px-6 py-2 bg-[#85badbff] text-[#1e1e2e] font-bold rounded hover:brightness-110 transition-colors"
+            >
+                Guardar y Aplicar
+            </button>
+        </div>
+    </div>
+</dialog>
+
+<style>
+    .tab-btn.active {
+        border-bottom-color: var(--theme-primary);
+        color: var(--theme-primary);
+    }
+    dialog::backdrop {
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+    }
+</style>
+
+<script>
+    import {
+        parseMarkdownTable,
+        type LinkCategory,
+        type LinkItem,
+    } from "../utils/linkParser";
+
+    // --- State & DOM Elements ---
+    const modal = document.getElementById(
+        "settings-modal",
+    ) as HTMLDialogElement;
+    const btnOpen = document.getElementById("settings-btn");
+    const btnClose = document.getElementById("close-modal");
+    const btnSave = document.getElementById("btn-save");
+    const btnReset = document.getElementById("btn-reset");
+    const tabBtns = document.querySelectorAll(".tab-btn");
+    const tabContents = document.querySelectorAll(".tab-content");
+
+    // Color Inputs
+    const colorInputs = {
+        bg: {
+            input: document.getElementById("input-bg-color"),
+            text: document.getElementById("text-bg-color"),
+            var: "--theme-bg",
+        },
+        fg: {
+            input: document.getElementById("input-fg-color"),
+            text: document.getElementById("text-fg-color"),
+            var: "--theme-fg",
+        },
+        primary: {
+            input: document.getElementById("input-primary-color"),
+            text: document.getElementById("text-primary-color"),
+            var: "--theme-primary",
+        },
+        secondary: {
+            input: document.getElementById("input-secondary-color"),
+            text: document.getElementById("text-secondary-color"),
+            var: "--theme-secondary",
+        },
+
+        clock: {
+            input: document.getElementById("input-clock-color"),
+            text: document.getElementById("text-clock-color"),
+            var: "--theme-clock",
+        },
+        date: {
+            input: document.getElementById("input-date-color"),
+            text: document.getElementById("text-date-color"),
+            var: "--theme-date",
+        },
+        host: {
+            input: document.getElementById("input-host-color"),
+            text: document.getElementById("text-host-color"),
+            var: "--theme-host",
+        },
+        user: {
+            input: document.getElementById("input-user-color"),
+            text: document.getElementById("text-user-color"),
+            var: "--theme-user",
+        },
+        favicon: {
+            input: document.getElementById("input-favicon-color"),
+            text: document.getElementById("text-favicon-color"),
+            var: null, // No CSS var, handled specially
+        },
+    };
+
+    // Text Inputs
+    const inputUserText = document.getElementById(
+        "input-user-text",
+    ) as HTMLInputElement;
+    const inputHostText = document.getElementById(
+        "input-host-text",
+    ) as HTMLInputElement;
+
+    // Bg Image Inputs (Drag & Drop)
+    const inputBgImage = document.getElementById(
+        "input-bg-image",
+    ) as HTMLInputElement;
+    const bgDropZone = document.getElementById("bg-drop-zone");
+    const fileBgImage = document.getElementById(
+        "file-bg-image",
+    ) as HTMLInputElement;
+    const bgPreviewContainer = document.getElementById("bg-preview-container");
+    const bgPreview = document.getElementById("bg-preview") as HTMLImageElement;
+    const btnRemoveBg = document.getElementById("btn-remove-bg");
+
+    // Transparency Inputs
+    const checkTransparency = document.getElementById(
+        "check-transparency",
+    ) as HTMLInputElement;
+    const rangeOpacity = document.getElementById(
+        "range-opacity",
+    ) as HTMLInputElement;
+    const textOpacityVal = document.getElementById("text-opacity-val");
+    const transparencyControls = document.getElementById(
+        "transparency-controls",
+    );
+
+    // Links Inputs
+    const linksTableBody = document.getElementById("links-table-body");
+    const btnAddRow = document.getElementById("btn-add-row");
+    const btnImportMd = document.getElementById("btn-import-md");
+    const importArea = document.getElementById("import-area");
+    const btnCancelImport = document.getElementById("btn-cancel-import");
+    const btnProcessImport = document.getElementById("btn-process-import");
+    const markdownInput = document.getElementById(
+        "markdown-input",
+    ) as HTMLTextAreaElement;
+
+    // Initial Data
+    let currentLinks: LinkCategory[] = [];
+
+    // --- Event Listeners ---
+    btnOpen?.addEventListener("click", () => {
+        loadCurrentState();
+        modal.showModal();
+    });
+    btnClose?.addEventListener("click", () => modal.close());
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal) modal.close();
+    });
+
+    // Tab Switching
+    tabBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            tabBtns.forEach((b) => b.classList.remove("active"));
+            tabContents.forEach((c) => c.classList.add("hidden"));
+            btn.classList.add("active");
+            const tabId = btn.getAttribute("data-tab");
+            document.getElementById(`tab-${tabId}`)?.classList.remove("hidden");
+        });
+    });
+
+    // Color Inputs Sync
+    Object.values(colorInputs).forEach(({ input, text }) => {
+        input?.addEventListener("input", (e) => {
+            if (text)
+                (text as HTMLInputElement).value = (
+                    e.target as HTMLInputElement
+                ).value;
+        });
+        text?.addEventListener("input", (e) => {
+            if (input)
+                (input as HTMLInputElement).value = (
+                    e.target as HTMLInputElement
+                ).value;
+        });
+    });
+
+    // --- Background Drag & Drop Logic ---
+    bgDropZone?.addEventListener("click", (e) => {
+        // Prevent triggering if clicking remove button
+        if ((e.target as HTMLElement).closest("#btn-remove-bg")) return;
+        fileBgImage.click();
+    });
+
+    bgDropZone?.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        bgDropZone.classList.add("border-white/50", "bg-white/10");
+    });
+
+    bgDropZone?.addEventListener("dragleave", (e) => {
+        e.preventDefault();
+        bgDropZone.classList.remove("border-white/50", "bg-white/10");
+    });
+
+    bgDropZone?.addEventListener("drop", (e) => {
+        e.preventDefault();
+        bgDropZone.classList.remove("border-white/50", "bg-white/10");
+
+        if (e.dataTransfer?.files && e.dataTransfer.files[0]) {
+            handleImageFile(e.dataTransfer.files[0]);
+        }
+    });
+
+    fileBgImage?.addEventListener("change", (e) => {
+        const file = (e.target as HTMLInputElement).files?.[0];
+        if (file) handleImageFile(file);
+    });
+
+    btnRemoveBg?.addEventListener("click", (e) => {
+        e.stopPropagation();
+        inputBgImage.value = "";
+        updatePreview("");
+        fileBgImage.value = ""; // Reset file input
+    });
+
+    inputBgImage?.addEventListener("input", (e) => {
+        updatePreview((e.target as HTMLInputElement).value);
+    });
+
+    function handleImageFile(file: File) {
+        // Validate Size (Max 1MB) - Edge/Chrome have strict ~5MB LocalStorage limits (UTF-16 chars take 2 bytes)
+        // 1MB file ~= 1.33MB Base64 ~= 2.66MB in LocalStorage. Safe.
+        // 2MB file ~= 2.66MB Base64 ~= 5.3MB in LocalStorage. Too risky.
+        if (file.size > 1 * 1024 * 1024) {
+            alert(
+                "La imagen es demasiado grande para el navegador (Máx 1MB). Edge/Chrome tienen límites estrictos de almacenamiento. Por favor usa una imagen más comprimida.",
+            );
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const result = e.target?.result as string;
+            inputBgImage.value = result;
+            updatePreview(result);
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function updatePreview(src: string) {
+        if (src && src.trim() !== "") {
+            bgPreview.src = src;
+            bgPreviewContainer?.classList.remove("hidden");
+        } else {
+            bgPreview.removeAttribute("src");
+            bgPreviewContainer?.classList.add("hidden");
+        }
+    }
+
+    // Transparency Sync
+    checkTransparency?.addEventListener("change", (e) => {
+        const checked = (e.target as HTMLInputElement).checked;
+        if (checked) {
+            transparencyControls?.classList.remove(
+                "opacity-50",
+                "pointer-events-none",
+            );
+        } else {
+            transparencyControls?.classList.add(
+                "opacity-50",
+                "pointer-events-none",
+            );
+        }
+    });
+
+    rangeOpacity?.addEventListener("input", (e) => {
+        const val = (e.target as HTMLInputElement).value;
+        if (textOpacityVal)
+            textOpacityVal.textContent = Math.round(Number(val) * 100) + "%";
+    });
+
+    // Links Table Actions
+    btnAddRow?.addEventListener("click", () => addLinkRow("", "", ""));
+
+    // Import Logic
+    btnImportMd?.addEventListener("click", () =>
+        importArea?.classList.remove("hidden"),
+    );
+    btnCancelImport?.addEventListener("click", () =>
+        importArea?.classList.add("hidden"),
+    );
+    btnProcessImport?.addEventListener("click", () => {
+        const md = markdownInput.value;
+        if (md) {
+            try {
+                const newCategories = parseMarkdownTable(md);
+                renderLinksTable(newCategories);
+                importArea?.classList.add("hidden");
+                markdownInput.value = "";
+            } catch (e) {
+                alert("Error al procesar Markdown");
+            }
+        }
+    });
+
+    // Persistence
+    btnSave?.addEventListener("click", saveSettings);
+    btnReset?.addEventListener("click", () => {
+        if (
+            confirm("¿Estás seguro de restaurar la configuración por defecto?")
+        ) {
+            localStorage.removeItem("startpage_settings");
+            localStorage.removeItem("custom_links"); // Optional: separate storage
+            window.location.reload();
+        }
+    });
+
+    // --- Functions ---
+
+    function loadCurrentState() {
+        // 1. Colors
+        const rootStyle = getComputedStyle(document.body);
+        Object.values(colorInputs).forEach(({ text, input, var: cssVar }) => {
+            let val = "";
+            if (cssVar) {
+                val = rootStyle.getPropertyValue(cssVar).trim();
+            } else if (text && text.id === "text-favicon-color") {
+                // Try to load from localstorage as it's not a CSS var
+                const saved = localStorage.getItem("startpage_settings");
+                if (saved) {
+                    try {
+                        const s = JSON.parse(saved);
+                        if (s.colors && s.colors.favicon)
+                            val = s.colors.favicon;
+                    } catch (e) {}
+                }
+                // Default logic if not found? defaulting to primary or specific blue
+                if (!val) val = "#85badbff";
+            }
+
+            if (text) (text as HTMLInputElement).value = val;
+            if (input) (input as HTMLInputElement).value = val;
+        });
+
+        // Bg Image
+        const bgImgVar = rootStyle.getPropertyValue("--bg-image").trim();
+        // Extract URL from 'url("...")'
+        const urlMatch = bgImgVar.match(/url\(['"]?(.*?)['"]?\)/);
+        let currentUrl = "";
+        if (
+            urlMatch &&
+            urlMatch[1] &&
+            !urlMatch[1].includes(window.location.host + "/")
+        ) {
+            currentUrl = urlMatch[1];
+        }
+
+        inputBgImage.value = currentUrl;
+        updatePreview(currentUrl);
+
+        // 3. Transparency
+        const opacity = parseFloat(
+            rootStyle.getPropertyValue("--terminal-opacity").trim(),
+        );
+
+        rangeOpacity.value = isNaN(opacity) ? "0.9" : opacity.toString();
+        if (textOpacityVal)
+            textOpacityVal.textContent =
+                Math.round(Number(rangeOpacity.value) * 100) + "%";
+
+        const saved = localStorage.getItem("startpage_settings");
+        let isTransparent = true; // Default
+        if (saved) {
+            try {
+                const s = JSON.parse(saved);
+                if (s.transparency !== undefined)
+                    isTransparent = s.transparency.enabled;
+            } catch (e) {}
+        }
+
+        // 3.5 Texts
+        if (saved) {
+            try {
+                const s = JSON.parse(saved);
+                if (s.texts) {
+                    inputUserText.value = s.texts.user || "";
+                    inputHostText.value = s.texts.host || "";
+                }
+            } catch (e) {}
+        }
+
+        checkTransparency.checked = isTransparent;
+        if (isTransparent) {
+            transparencyControls?.classList.remove(
+                "opacity-50",
+                "pointer-events-none",
+            );
+        } else {
+            transparencyControls?.classList.add(
+                "opacity-50",
+                "pointer-events-none",
+            );
+        }
+
+        // 4. Links
+        // Try load from local storage first, then default from DOM or Config?
+        // We can't easily access the Config object structure from client side if we didn't serialize it.
+        // But we can assume if no localStorage, we start empty or we need to pass the default config as a prop.
+        // For now, let's try to read `custom_links` from localStorage.
+        const storedLinks = localStorage.getItem("custom_links");
+        if (storedLinks) {
+            currentLinks = JSON.parse(storedLinks);
+        } else {
+            // If no custom links, we might want to let the user start fresh or import.
+            // Or better: inject the current links as a JSON script in the page to read them.
+            // For now, let's just initialize empty if no custom links,
+            // BUT user might want to edit existing ones.
+            // Hack: We can read the current DOM to rebuild the structure?
+            // No, better to have a global variable with default links.
+            // Implemented via a hidden script in index.astro or just start empty.
+            // Let's start empty for editing but allow "Load Default" if we can pass it.
+        }
+        renderLinksTable(currentLinks);
+    }
+
+    function renderLinksTable(categories: LinkCategory[]) {
+        if (!linksTableBody) return;
+        linksTableBody.innerHTML = "";
+
+        // Flatten for table: Category | Name | URL
+        categories.forEach((cat) => {
+            cat.items.forEach((item) => {
+                addLinkRow(cat.name, item.name, item.url);
+            });
+        });
+    }
+
+    function addLinkRow(category: string, name: string, url: string) {
+        if (!linksTableBody) return;
+        const tr = document.createElement("tr");
+        tr.className = "border-b border-white/5 hover:bg-white/5 group";
+        tr.innerHTML = `
+            <td class="p-2"><input type="text" value="${category}" class="bg-transparent w-full outline-none text-white/70 focus:text-white" placeholder="Categoría"></td>
+            <td class="p-2"><input type="text" value="${name}" class="bg-transparent w-full outline-none text-white/70 focus:text-white" placeholder="Nombre"></td>
+            <td class="p-2"><input type="text" value="${url}" class="bg-transparent w-full outline-none text-white/70 focus:text-white" placeholder="https://..."></td>
+            <td class="p-2 text-right">
+                <button class="text-red-400 opacity-0 group-hover:opacity-100 hover:text-red-300" onclick="this.closest('tr').remove()">✕</button>
+            </td>
+        `;
+        linksTableBody.appendChild(tr);
+    }
+
+    function saveSettings() {
+        const isTransparent = checkTransparency.checked;
+        const opacityVal = isTransparent ? rangeOpacity.value : "1";
+        const blurVal = isTransparent ? "16px" : "0px";
+
+        // Background Image Handling
+        let bgImageValue = inputBgImage.value.trim();
+        // If it's a URL but user didn't wrap in url(), we might want to ensure it works?
+        // But the script where we apply it (index.astro) usually expects it to be just a value,
+        // and we wrap it there?
+        // Checking index.astro:
+        // `root.style.setProperty("--bg-image", \`url("\${settings.backgroundImage}")\`);`
+        // So we should store JUST the URL or JUST the Base64 string.
+        // Good.
+
+        // 1. Save Colors
+        const settings = {
+            colors: {
+                background: (
+                    document.getElementById("text-bg-color") as HTMLInputElement
+                ).value,
+                foreground: (
+                    document.getElementById("text-fg-color") as HTMLInputElement
+                ).value,
+                primary: (
+                    document.getElementById(
+                        "text-primary-color",
+                    ) as HTMLInputElement
+                ).value,
+                secondary: (
+                    document.getElementById(
+                        "text-secondary-color",
+                    ) as HTMLInputElement
+                ).value,
+
+                clock: (
+                    document.getElementById(
+                        "text-clock-color",
+                    ) as HTMLInputElement
+                ).value,
+                date: (
+                    document.getElementById(
+                        "text-date-color",
+                    ) as HTMLInputElement
+                ).value,
+                host: (
+                    document.getElementById(
+                        "text-host-color",
+                    ) as HTMLInputElement
+                ).value,
+                user: (
+                    document.getElementById(
+                        "text-user-color",
+                    ) as HTMLInputElement
+                ).value,
+            },
+            texts: {
+                user: inputUserText.value.trim(),
+                host: inputHostText.value.trim(),
+            },
+            backgroundImage: bgImageValue,
+            transparency: {
+                enabled: isTransparent,
+                opacity: opacityVal,
+                blur: blurVal,
+            },
+        };
+
+        try {
+            localStorage.setItem(
+                "startpage_settings",
+                JSON.stringify(settings),
+            );
+        } catch (e) {
+            alert(
+                "Error al guardar: Probablemente la imagen es demasiado grande para el almacenamiento local. Intenta con una imagen más pequeña.",
+            );
+            return;
+        }
+
+        // 2. Save Links
+        const rows = linksTableBody?.querySelectorAll("tr");
+        const newCategoriesMap: Record<string, LinkItem[]> = {};
+
+        rows?.forEach((row) => {
+            const inputs = row.querySelectorAll("input");
+            const cat = inputs[0].value.trim();
+            const name = inputs[1].value.trim();
+            const url = inputs[2].value.trim();
+
+            if (cat && name && url) {
+                if (!newCategoriesMap[cat]) newCategoriesMap[cat] = [];
+                newCategoriesMap[cat].push({ name, url });
+            }
+        });
+
+        const newLinks: LinkCategory[] = Object.entries(newCategoriesMap).map(
+            ([name, items]) => ({ name, items }),
+        );
+
+        if (newLinks.length > 0) {
+            localStorage.setItem("custom_links", JSON.stringify(newLinks));
+        } else {
+            localStorage.setItem("custom_links", JSON.stringify([]));
+        }
+
+        window.location.reload();
+    }
+</script>
