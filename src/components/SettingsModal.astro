@@ -28,14 +28,16 @@ import { config } from "../config";
     </svg>
 </button>
 
-<dialog
+<div
     id="settings-modal"
-    class="bg-[#1e1e2e] text-[#B8CCD9] p-0 rounded-xl shadow-2xl backdrop:bg-black/50 w-[90vw] max-w-4xl max-h-[90vh] border border-[#B8CCD9]/20"
+    class="hidden fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm"
 >
-    <div class="flex flex-col h-full">
+    <div
+        class="bg-[#000000] text-white p-0 rounded-xl shadow-2xl w-[90vw] max-w-4xl max-h-[90vh] border border-white/10 flex flex-col relative"
+    >
         <!-- Header -->
         <div
-            class="flex justify-between items-center p-4 border-b border-[#B8CCD9]/10"
+            class="flex justify-between items-center p-4 border-b border-[#ffffff]/10"
         >
             <h2 class="text-xl font-bold">Configuración</h2>
             <button id="close-modal" class="hover:text-white">✕</button>
@@ -50,6 +52,10 @@ import { config } from "../config";
             <button
                 class="tab-btn px-6 py-3 font-medium border-b-2 border-transparent hover:bg-white/5 transition-colors"
                 data-tab="links">Enlaces</button
+            >
+            <button
+                class="tab-btn px-6 py-3 font-medium border-b-2 border-transparent hover:bg-white/5 transition-colors"
+                data-tab="export">Exportar/Importar</button
             >
         </div>
 
@@ -249,9 +255,7 @@ import { config } from "../config";
                 </div>
 
                 <div class="space-y-4 pt-4 border-t border-white/10">
-                    <h3 class="font-bold text-sm">
-                        Transparencia (Frosted Glass)
-                    </h3>
+                    <h3 class="font-bold text-sm">Transparencia</h3>
                     <div class="flex items-center gap-2">
                         <input
                             type="checkbox"
@@ -444,35 +448,111 @@ import { config } from "../config";
                     >+ Agregar Fila</button
                 >
             </div>
+
+            <!-- Export/Import Tab -->
+            <div id="tab-export" class="tab-content hidden space-y-6">
+                <div class="space-y-4">
+                    <h3 class="font-bold text-sm">Respaldo y Restauración</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Export -->
+                        <div
+                            class="p-4 bg-white/5 rounded border border-white/10 space-y-3"
+                        >
+                            <div class="flex items-center gap-2">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="1.5"
+                                    stroke="currentColor"
+                                    class="w-5 h-5 opacity-70"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
+                                    ></path>
+                                </svg>
+                                <p class="text-sm font-bold">Exportar</p>
+                            </div>
+                            <p class="text-xs opacity-70 min-h-[40px]">
+                                Descarga un archivo con toda tu configuración
+                                actual (colores, fondo, enlaces).
+                            </p>
+                            <button
+                                id="btn-export"
+                                class="w-full py-2 bg-[#85badbff]/20 hover:bg-[#85badbff]/30 text-[#85badbff] border border-[#85badbff]/30 rounded text-sm transition-colors font-bold"
+                            >
+                                Exportar Configuración
+                            </button>
+                        </div>
+
+                        <!-- Import -->
+                        <div
+                            class="p-4 bg-white/5 rounded border border-white/10 space-y-3"
+                        >
+                            <div class="flex items-center gap-2">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="1.5"
+                                    stroke="currentColor"
+                                    class="w-5 h-5 opacity-70"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
+                                        transform="rotate(180 12 12)"></path>
+                                </svg>
+                                <p class="text-sm font-bold">Importar</p>
+                            </div>
+                            <p class="text-xs opacity-70 min-h-[40px]">
+                                Restaura tu configuración desde un archivo
+                                previamente exportado.
+                            </p>
+                            <input
+                                type="file"
+                                id="file-import"
+                                accept=".json"
+                                class="hidden"
+                            />
+                            <button
+                                id="btn-import-trigger"
+                                class="w-full py-2 bg-white/10 hover:bg-white/20 border border-white/10 rounded text-sm transition-colors"
+                            >
+                                Seleccionar Archivo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Footer -->
         <div
-            class="p-4 border-t border-[#B8CCD9]/10 flex justify-end gap-3 bg-[#1e1e2e]"
+            class="p-4 border-t border-[#ffffff]/10 flex justify-end gap-3 bg-[#000000]"
         >
             <button
                 id="btn-reset"
-                class="px-4 py-2 text-sm hover:underline text-red-400"
+                class="px-4 py-2 text-sm hover:underline text-white bg-red-600 rounded font-bold hover:bg-red-500 transition-colors"
                 >Restaurar Todo</button
             >
             <button
                 id="btn-save"
-                class="px-6 py-2 bg-[#85badbff] text-[#1e1e2e] font-bold rounded hover:brightness-110 transition-colors"
+                class="px-6 py-2 bg-[#ffffff] text-[#000000] font-bold rounded hover:bg-[#ffffff]/10 hover:text-[#ffffff] transition-colors"
             >
                 Guardar y Aplicar
             </button>
         </div>
     </div>
-</dialog>
+</div>
 
 <style>
     .tab-btn.active {
         border-bottom-color: var(--theme-primary);
         color: var(--theme-primary);
-    }
-    dialog::backdrop {
-        background: rgba(0, 0, 0, 0.6);
-        backdrop-filter: blur(4px);
     }
 </style>
 
@@ -484,15 +564,16 @@ import { config } from "../config";
     } from "../utils/linkParser";
 
     // --- State & DOM Elements ---
-    const modal = document.getElementById(
-        "settings-modal",
-    ) as HTMLDialogElement;
+    // --- State & DOM Elements ---
+    const modal = document.getElementById("settings-modal");
     const btnOpen = document.getElementById("settings-btn");
     const btnClose = document.getElementById("close-modal");
     const btnSave = document.getElementById("btn-save");
     const btnReset = document.getElementById("btn-reset");
     const tabBtns = document.querySelectorAll(".tab-btn");
     const tabContents = document.querySelectorAll(".tab-content");
+
+    // --- State & DOM Elements ---
 
     // Color Inputs
     const colorInputs = {
@@ -587,17 +668,22 @@ import { config } from "../config";
         "markdown-input",
     ) as HTMLTextAreaElement;
 
+    // Export/Import Inputs
+    const btnExport = document.getElementById("btn-export");
+    const fileImport = document.getElementById("file-import");
+    const btnImportTrigger = document.getElementById("btn-import-trigger");
+
     // Initial Data
     let currentLinks: LinkCategory[] = [];
 
     // --- Event Listeners ---
     btnOpen?.addEventListener("click", () => {
         loadCurrentState();
-        modal.showModal();
+        modal?.classList.remove("hidden");
     });
-    btnClose?.addEventListener("click", () => modal.close());
-    modal.addEventListener("click", (e) => {
-        if (e.target === modal) modal.close();
+    btnClose?.addEventListener("click", () => modal?.classList.add("hidden"));
+    modal?.addEventListener("click", (e) => {
+        if (e.target === modal) modal.classList.add("hidden");
     });
 
     // Tab Switching
@@ -747,6 +833,80 @@ import { config } from "../config";
 
     // Persistence
     btnSave?.addEventListener("click", saveSettings);
+
+    // Export/Import Logic
+    btnExport?.addEventListener("click", () => {
+        const settings = localStorage.getItem("startpage_settings");
+        const links = localStorage.getItem("custom_links");
+
+        const exportData = {
+            settings: settings ? JSON.parse(settings) : null,
+            links: links ? JSON.parse(links) : [],
+            timestamp: new Date().toISOString(),
+        };
+
+        const blob = new Blob([JSON.stringify(exportData, null, 2)], {
+            type: "application/json",
+        });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `diego-startpage-config-${new Date().toISOString().slice(0, 10)}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    });
+
+    btnImportTrigger?.addEventListener("click", () => fileImport?.click());
+
+    fileImport?.addEventListener("change", (e) => {
+        const file = (e.target as HTMLInputElement).files?.[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const json = e.target?.result as string;
+                const data = JSON.parse(json);
+
+                if (!data.settings && !data.links) {
+                    throw new Error("Formato inválido");
+                }
+
+                if (
+                    confirm(
+                        "Se reemplazará tu configuración actual. ¿Continuar?",
+                    )
+                ) {
+                    if (data.settings) {
+                        localStorage.setItem(
+                            "startpage_settings",
+                            JSON.stringify(data.settings),
+                        );
+                    }
+                    if (data.links) {
+                        localStorage.setItem(
+                            "custom_links",
+                            JSON.stringify(data.links),
+                        );
+                    }
+                    alert("Configuración importada exitosamente.");
+                    window.location.reload();
+                }
+            } catch (err) {
+                alert(
+                    "Error al leer el archivo. Asegúrate de que sea un JSON válido generado por esta aplicación.",
+                );
+                console.error(err);
+            }
+            // Reset input
+            (document.getElementById("file-import") as HTMLInputElement).value =
+                "";
+        };
+        reader.readAsText(file);
+    });
+
     btnReset?.addEventListener("click", () => {
         if (
             confirm("¿Estás seguro de restaurar la configuración por defecto?")
